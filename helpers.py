@@ -14,4 +14,7 @@ def reorder(index, todo_list):
         todo_list[i]['position'] = position
         position += 1
         
-    
+def print_list(todo_list):
+    """Print the todo list"""                                                      
+    for item in todo_list:                                                      
+        print(f"{item['position']}. {item['description']}\t\t{item['status']}")

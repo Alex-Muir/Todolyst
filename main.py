@@ -1,13 +1,10 @@
 import argparse
+
 import file_funcs as ff
 import helpers as h
 
 # A simple command line to-do list using argparse
     
-def print_list(todo_list):
-    for item in todo_list:
-        print(f"{item['position']}. {item['description']}\t\t{item['status']}")
-
 filename = 'todo_list.txt'
 todo_list = ff.read_from_file(filename)
 
@@ -21,6 +18,9 @@ parser.add_argument("-c", "--clear", help="clear your todo list",
 parser.add_argument("-m", "--complete", help="mark an item complete",
                     action="store_true")
 parser.add_argument("-r", "--remove", help="remove an item from the todo list",
+                    action="store_true")
+parser.add_argument("-b", "--move_to_bottom", 
+                    help="move completed items to the bottom of the list",
                     action="store_true")
 args = parser.parse_args()
 
@@ -37,7 +37,7 @@ if args.add:
 # print the list
 if args.print:
     if(todo_list):
-        print_list(todo_list)
+        h.print_list(todo_list)
     else:
         print("The list is empty")
 
@@ -50,7 +50,7 @@ if args.clear:
 # mark an item complete
 if args.complete:
     if todo_list:
-        print_list(todo_list)
+        h.print_list(todo_list)
         while True:
             selection = h.get_selection()
 
@@ -77,7 +77,7 @@ if args.complete:
 # remove an item
 if args.remove:
     if todo_list:
-        print_list(todo_list)
+        h.print_list(todo_list)
         while True:
             selection = h.get_selection()
             if selection.lower() == 'c':
@@ -93,12 +93,19 @@ if args.remove:
                     else:
                         index = selection - 1
                         todo_list.pop(index)
-                        # Add code to adjust position numbers after removal
                         h.reorder(index, todo_list)
                         message = "Item has been removed"
                         ff.write_to_file(filename, todo_list, message)
                         break
     
-    
+if args.move_to_bottom:
+    if todo_list:
+        for i in range(len(todo_list)):
+            if todo_list[i]['status'].lower() == 'complete':
+                tmp = todo_list.pop(i)
+                todo_list.append(tmp)
+        ff.write_to_file(filename, todo_list)
+    else:
+        print("The list is empty")
 
 
