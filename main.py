@@ -1,11 +1,12 @@
 import argparse
 import file_funcs as ff
+import helpers as h
 
 # A simple command line to-do list using argparse
     
 def print_list(todo_list):
     for item in todo_list:
-        print(f"{item['position']}. {item['description']}\t{item['status']}")
+        print(f"{item['position']}. {item['description']}\t\t{item['status']}")
 
 filename = 'todo_list.txt'
 todo_list = ff.read_from_file(filename)
@@ -43,15 +44,15 @@ if args.print:
 # clear the list
 if args.clear:
     todo_list.clear()
-    ff.write_to_file(filename, todo_list, 'your list has been cleared')
+    message = 'your list has been cleared'
+    ff.write_to_file(filename, todo_list, message)
 
 # mark an item complete
 if args.complete:
     if todo_list:
         print_list(todo_list)
         while True:
-            selection = input("Which item would you like to mark as complete?"
-                              " Enter a number or 'c' to cancel: ")
+            selection = h.get_selection()
 
             if selection.lower() == 'c':
                 break
@@ -64,9 +65,10 @@ if args.complete:
                     if selection < 1 or selection > len(todo_list):
                         print("Invalid input. Enter a valid postion number")
                     else:
-                        selection -= 1
-                        todo_list[selection]['status'] = 'Complete'
-                        ff.write_to_file(filename, todo_list, "item has been markes as 'complete'")
+                        index = selection - 1
+                        todo_list[index]['status'] = 'Complete'
+                        message = "item has been marked as 'complete'"
+                        ff.write_to_file(filename, todo_list, message)
                         break
     else: 
         print("The list is empty")
@@ -74,7 +76,28 @@ if args.complete:
         
 # remove an item
 if args.remove:
-    print("remove option set")
+    if todo_list:
+        print_list(todo_list)
+        while True:
+            selection = h.get_selection()
+            if selection.lower() == 'c':
+                break
+            else:
+                try:
+                    selection = int(selection)
+                except ValueError:
+                    print("Invalid input. Enter a valid position number")
+                else:
+                    if selection < 1 or selection > len(todo_list):
+                        print("Invalid input. Enter a valid position number")
+                    else:
+                        index = selection - 1
+                        todo_list.pop(index)
+                        # Add code to adjust position numbers after removal
+                        h.reorder(index, todo_list)
+                        message = "Item has been removed"
+                        ff.write_to_file(filename, todo_list, message)
+                        break
     
     
 
