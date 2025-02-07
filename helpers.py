@@ -14,7 +14,7 @@ def get_selection(prompt):
 def print_list(todo_list):
     """Print the todo list"""                                                      
     for i in range(len(todo_list)):                                                      
-        print(f"{i+1} {todo_list[i]['description']}\t\t{todo_list[i]['status']}")
+        print(f"{i+1}. {todo_list[i]['description']}\t\t{todo_list[i]['status']}")
 
 # FILE HELPERS
 def save(filename, todo_list, message='your list has been saved'):
@@ -39,7 +39,7 @@ def load(filename):
             todo_list = json.load(f)                                            
     except FileNotFoundError:                                                   
         todo_list = []                                                          
-        write_to_file(todo_list, '')                                            
+        save(filename, todo_list, '')                                            
     return todo_list  
 
 
