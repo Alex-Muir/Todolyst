@@ -39,7 +39,9 @@ if args.toggle:
     if todo_list:
         h.print_list(todo_list)
         while True:
-            selection = h.get_selection()
+            prompt = "Which item's status would you like to toggle?"
+            prompt += " Enter a number or 'c' to cancel: "
+            selection = h.get_selection(prompt)
             if selection.lower() == 'c':
                 break
             else:
@@ -52,7 +54,7 @@ if args.toggle:
                         print("Invalid input. Enter a valid postion number")
                     else:
                         h.toggle_status(selection-1, todo_list)
-                        message = "item has been marked as 'complete'"
+                        message = "item's status has been toggled"
                         h.save(filename, todo_list, message)
                         break
     else: 
@@ -64,7 +66,9 @@ if args.remove:
     if todo_list:
         h.print_list(todo_list)
         while True:
-            selection = h.get_selection()
+            prompt = "Which item would you like to remove?"
+            prompt += " Enter a number or 'c' to cancel: "
+            selection = h.get_selection(prompt)
             if selection.lower() == 'c':
                 break
             else:

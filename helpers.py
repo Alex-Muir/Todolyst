@@ -5,10 +5,9 @@ import json
 
 
 # BASIC HELPERS
-def get_selection():
+def get_selection(prompt):
     """Get the user's selection for marking an item complete or for removing an item"""
-    selection = input("Which item would you like to mark as complete?"  
-                      " Enter a number or 'c' to cancel: ")
+    selection = input(prompt)
     return selection
 
         
@@ -64,17 +63,20 @@ def completed_to_bottom(todo_list):
 def set_up_parser(parser):
     """Add arguments to the parser"""
     parser.add_argument("-a", "--add", help="add an item to your to-do list")
-    parser.add_argument("-p", "--print", help="print your todo list", 
-                        action="store_true")
     parser.add_argument("-c", "--clear", help="clear your todo list", 
-                        action="store_true")
-    parser.add_argument("-t", "--toggle", help="toggle item status",
-                        action="store_true")
-    parser.add_argument("-r", "--remove", help="remove an item from the todo list",
-                        action="store_true")
-    parser.add_argument("-m", "--move_to_bottom", 
-                        help="move completed items to the bottom of the list",
                         action="store_true")
     parser.add_argument("-C", "--clear_complete", 
                         help="remove completed items from the todo_list", 
                         action="store_true")
+    parser.add_argument("-m", "--move_to_bottom", 
+                        help="move completed items to the bottom of the list",
+                        action="store_true")
+    parser.add_argument("-p", "--print", help="print your todo list", 
+                        action="store_true")
+    parser.add_argument("-r", "--remove", help="remove an item from the todo list",
+                        action="store_true")
+    parser.add_argument("-t", "--toggle", help="toggle item status",
+                        action="store_true")
+    
+    
+    
