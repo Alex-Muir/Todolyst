@@ -5,12 +5,60 @@ import json
 
 
 # BASIC HELPERS
-def get_selection(prompt):
-    """Get the user's selection for marking an item complete or for removing an item"""
-    selection = input(prompt)
-    return selection
+def get_valid_selection(prompt, length):
+    """Get a valid selection from the user"""
+    while True:
+        selection = input(prompt)
+        if selection.lower() == 'c':
+            return None
+        try:
+            selection = int(selection)
+        except ValueError:
+            print("Invalid input. Enter a valid position number")
+        else:
+            if selection < 1 or selection > length:
+                print("Invalid input. Enter a valid position number")
+            else:
+                return selection - 1
 
-        
+
+def get_prompt(argument):
+    """Return the proper prompt based on the argument"""
+    # toggle
+    if argument == 't':
+        prompt = "Which item's status would you like to toggle?"
+    
+    # remove
+    if argument == 'r':
+        prompt = "Which item would you like to remove?"
+
+    prompt += " Enter a number or 'c' to cancel: "
+    return prompt
+
+
+def get_message(argument):
+    """Return the proper message based on the argument"""
+    # add item
+    if argument == 'a':
+        message = "Item has been added"
+    # clear list
+    elif argument == 'c':
+        message = "The list has been cleared"
+    # clear completed
+    elif argument == 'C':
+        message = "Completed items have been cleared"
+    # move completed to bottom
+    elif argument == 'm':
+        message = "Completed items have been moved to the bottom"
+    # remove item
+    elif argument == 'r':
+        message = "Item has been removed"
+    # toggle item's status
+    elif argument == 't':
+        message = "Item's status had been toggled"
+    return message
+
+
 def print_list(todo_list):
     """Print the todo list"""                                                      
     for i in range(len(todo_list)):                                                      
