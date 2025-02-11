@@ -60,9 +60,11 @@ def get_message(argument):
 
 
 def print_list(todo_list):
-    """Print the todo list"""                                                      
-    for i in range(len(todo_list)):                                                      
-        print(f"{i+1}. {todo_list[i]['description']}\t\t{todo_list[i]['status']}")
+    """Print the todo list"""
+    print(f"{'Pos.':<5} {'Description':<30} {'Status'}")
+    print('-' * 50)                                                      
+    for i, item in enumerate(todo_list, 1):                                                      
+        print(f"{i:<5} {item['description']:<30} {item['status']}")
 
 # FILE HELPERS
 def save(filename, todo_list, message='your list has been saved'):
@@ -110,7 +112,7 @@ def completed_to_bottom(todo_list):
 # PARSER HELPERS
 def set_up_parser(parser):
     """Add arguments to the parser"""
-    parser.add_argument("-a", "--add", help="add an item to your to-do list")
+    parser.add_argument("-a", "--add", help="add an item to your to-do list", nargs="+")
     parser.add_argument("-c", "--clear", help="clear your todo list", 
                         action="store_true")
     parser.add_argument("-C", "--clear_complete", 
