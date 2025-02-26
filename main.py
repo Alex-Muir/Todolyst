@@ -17,6 +17,7 @@ def main():
     # add a new item to the list
     if args.add:
         for desc in args.add:
+            desc = desc.strip()
             item = {
                 'description': desc,
                 'status': 'Incomplete'
